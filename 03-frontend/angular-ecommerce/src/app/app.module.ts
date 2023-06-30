@@ -11,6 +11,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {path: 'products/:id', component: ProductDetailsComponent },
@@ -31,10 +32,11 @@ const routes: Routes = [
     SearchComponent
   ],
     imports: [
+        RouterModule.forRoot(routes),
         BrowserModule,
         HttpClientModule,
         NgOptimizedImage,
-        RouterModule.forRoot(routes)
+        NgbModule
     ],
   providers: [ProductService],
   bootstrap: [AppComponent]
