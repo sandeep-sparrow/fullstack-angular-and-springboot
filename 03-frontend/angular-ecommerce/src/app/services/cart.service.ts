@@ -25,12 +25,16 @@ export class CartService implements OnInit {
     if(this.cartItems.length>0){
     // find the item in the cart based on the item id
 
+    /* Old code refactored at line: 37
     for(let tempCartItem of this.cartItems){
       if(tempCartItem.id === theCartItem.id){
         existingCartItem = tempCartItem;
         break;
       }
     }
+    */
+
+    existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id = theCartItem.id)!;
     // check we found it
     alreadyExistsInCart = (existingCartItem != undefined);
     }
