@@ -22,7 +22,7 @@ export class CartService implements OnInit {
     let alreadyExistsInCart: boolean = false;
     let existingCartItem: CartItem = undefined!;
 
-    if(this.cartItems.length>0){
+    if(this.cartItems.length > 0){
     // find the item in the cart based on the item id
 
     /* Old code refactored at line: 37
@@ -34,9 +34,9 @@ export class CartService implements OnInit {
     }
     */
 
-    existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id = theCartItem.id)!;
-    // check we found it
-    alreadyExistsInCart = (existingCartItem != undefined);
+      existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id === theCartItem.id)!;
+      // check we found it
+      alreadyExistsInCart = (existingCartItem != undefined);
     }
 
     if(alreadyExistsInCart){
