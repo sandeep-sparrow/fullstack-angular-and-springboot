@@ -51,4 +51,8 @@ export class CartDetailsComponent implements OnInit{
       this.cartSerivce.computeCartTotal();
     }
   }
+
+  remove(cartItem: CartItem) {
+    this.cartSerivce.remove(cartItem);
+  }
 }
