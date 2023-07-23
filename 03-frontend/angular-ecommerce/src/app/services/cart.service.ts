@@ -84,4 +84,15 @@ export class CartService implements OnInit {
     }
   }
 
+  remove(cartItem: CartItem) {
+    // get the index of item in the array
+    const itemIndex = this.cartItems.findIndex(
+      tempCartItem => cartItem.id == tempCartItem.id);
+
+    // if found, remove the item from the array at the given index
+    if(itemIndex > -1){
+      this.cartItems.splice(itemIndex, 1);
+    }
+  }
+
 }
