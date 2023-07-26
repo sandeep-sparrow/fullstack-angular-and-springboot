@@ -17,6 +17,44 @@ export class CheckoutComponent implements OnInit {
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
+  states: String[] = 
+  ["Andhra Pradesh",
+   "Arunachal Pradesh",
+   "Assam",
+   "Bihar",
+   "Chhattisgarh",
+   "Goa",
+   "Gujarat",
+   "Haryana",
+   "Himachal Pradesh",
+   "Jammu and Kashmir",
+   "Jharkhand",
+   "Karnataka",
+   "Kerala",
+   "Madhya Pradesh",
+   "Maharashtra",
+   "Manipur",
+   "Meghalaya",
+   "Mizoram",
+   "Nagaland",
+   "Odisha",
+   "Punjab",
+   "Rajasthan",
+   "Sikkim",
+   "Tamil Nadu",
+   "Telangana",
+   "Tripura",
+   "Uttarakhand",
+   "Uttar Pradesh",
+   "West Bengal",
+   "Andaman and Nicobar Islands",
+   "Chandigarh",
+   "Dadra and Nagar Haveli",
+   "Daman and Diu",
+   "Delhi",
+   "Lakshadweep",
+   "Puducherry"];
+
   creditCardMonths: number[] = [];
   creditCardYears: number[] = [];
 
@@ -87,11 +125,11 @@ export class CheckoutComponent implements OnInit {
 
   onSubmit(){
     console.log("Handling the subit buttin");
-    console.log("Customer information: " + this.checkoutFormGroup.get('customer')?.value);
+    console.log(this.checkoutFormGroup.get('customer')?.value);
     console.log("The Email Address is " + this.checkoutFormGroup.get('customer')?.value.email);
-    console.log("Shipping address information: " + this.checkoutFormGroup.get('shippingAddress')?.value);
-    console.log("Billing address information: " + this.checkoutFormGroup.get('billingAddress')?.value);
-    console.log("Credit card information:" + this.checkoutFormGroup.get('creditCard ')?.value);
+    console.log(this.checkoutFormGroup.get('shippingAddress')?.value);
+    console.log(this.checkoutFormGroup.get('billingAddress')?.value);
+    console.log(this.checkoutFormGroup.get('creditCard')?.value);
   }
 
 }
