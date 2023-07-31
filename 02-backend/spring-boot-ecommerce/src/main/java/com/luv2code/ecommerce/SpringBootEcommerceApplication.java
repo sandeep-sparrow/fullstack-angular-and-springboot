@@ -1,6 +1,5 @@
 package com.luv2code.ecommerce;
 
-import jakarta.persistence.EntityManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
