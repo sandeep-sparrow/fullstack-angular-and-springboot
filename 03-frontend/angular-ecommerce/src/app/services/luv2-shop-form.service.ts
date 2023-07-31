@@ -1,12 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
+import { Country } from '../common/country';
+import { State } from '../common/state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Luv2ShopFormService implements OnInit {
 
-  constructor() { }
+  private countriesUrl = "http://localhost:8080/api/countries";
+  private statesUrl = "http://localhost:8080/api/states";
+
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {}
 
@@ -33,5 +39,34 @@ export class Luv2ShopFormService implements OnInit {
     }
 
     return of(data);
+  }
+
+  getCountries(): Observable<Country[]>{
+
+    return this.httpClient.get<GetResponseCountries>(this.countriesUrl).pipe(
+      map(response => response._embedded.countries)
+    );
+  }
+
+  getStates(theCountryCode: string): Observable<State[]>{
+
+    const searchUrl = `${this.statesUrl}/search/findByCountryCode=${theCountryCode}`;
+
+    return this.httpClient.get<GetResponseStates>(this.statesUrl).pipe(
+      map(response => response._embedded.states)
+    );
+  }
+
+}
+
+interface GetResponseCountries {
+  _embedded: {
+    countries: Country[];
+  }
+}
+
+interface GetResponseStates {
+  _embedded: {
+    states: State[];
   }
 }
