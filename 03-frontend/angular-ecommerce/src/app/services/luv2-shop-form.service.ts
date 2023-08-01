@@ -50,9 +50,9 @@ export class Luv2ShopFormService implements OnInit {
 
   getStates(theCountryCode: string): Observable<State[]>{
 
-    const searchUrl = `${this.statesUrl}/search/findByCountryCode=${theCountryCode}`;
+    const searchUrl = `${this.statesUrl}/search/findByCountryCode?code=${theCountryCode}`;
 
-    return this.httpClient.get<GetResponseStates>(this.statesUrl).pipe(
+    return this.httpClient.get<GetResponseStates>(searchUrl).pipe(
       map(response => response._embedded.states)
     );
   }
