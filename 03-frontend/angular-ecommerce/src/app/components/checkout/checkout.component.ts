@@ -115,7 +115,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log("Handling the subit buttin");
+    console.log("Handling the subit button");
+
+    if(this.checkoutFormGroup.invalid){
+      this.checkoutFormGroup.markAllAsTouched();
+    }
+    
     console.log(this.checkoutFormGroup.get('customer')?.value);
     console.log("The Email Address is " + this.checkoutFormGroup.get('customer')?.value.email);
     console.log(this.checkoutFormGroup.get('shippingAddress')?.value);
