@@ -34,10 +34,16 @@ export class CheckoutComponent implements OnInit {
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhiteSpaces]),
-        lastName: new FormControl('', [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhiteSpaces]),
+        firstName: new FormControl('', [Validators.required, 
+                                        Validators.minLength(2), 
+                                        Luv2ShopValidators.notOnlyWhiteSpaces]),
+        lastName: new FormControl('', [Validators.required, 
+                                       Validators.minLength(2), 
+                                       Luv2ShopValidators.notOnlyWhiteSpaces]),
         email: new FormControl('',
-         [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), Luv2ShopValidators.notOnlyWhiteSpaces])
+         [Validators.required, 
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), 
+          Luv2ShopValidators.notOnlyWhiteSpaces])
       }),
       shippingAddress: this.formBuilder.group({
         country: [''],
