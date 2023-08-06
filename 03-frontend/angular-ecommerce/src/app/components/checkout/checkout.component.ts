@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupName, Validators } from '@angular/forms';
 import { Country } from 'src/app/common/country';
 import { State } from 'src/app/common/state';
+import { CartService } from 'src/app/services/cart.service';
 import { Luv2ShopFormService } from 'src/app/services/luv2-shop-form.service';
 import { Luv2ShopValidators } from 'src/app/validators/luv2-shop-validators';
 
@@ -28,7 +29,8 @@ export class CheckoutComponent implements OnInit {
   creditCardYears: number[] = [];
 
   constructor(private formBuilder: FormBuilder,
-              private luv2CodeFormService: Luv2ShopFormService){}
+              private luv2CodeFormService: Luv2ShopFormService,
+              private cartService: CartService){}
 
   ngOnInit(): void {
 
@@ -109,6 +111,19 @@ export class CheckoutComponent implements OnInit {
         this.countries = data;
       }
     )
+
+    this.reviewCartDetails();
+  }
+
+  reviewCartDetails() {
+
+    this.cartService.totalPrice.subscribe(
+      data => this.totalPrice = data
+    );
+
+    this.cartService.totalQuantity.subscribe(
+      data => this.totalQuantity = data
+    );
   }
 
   get firstName(){
