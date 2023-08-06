@@ -46,11 +46,17 @@ export class CheckoutComponent implements OnInit {
           Luv2ShopValidators.notOnlyWhiteSpaces])
       }),
       shippingAddress: this.formBuilder.group({
-        country: [''],
-        street: [''],
-        city: [''],
-        state: [''],
-        zipCode: ['']
+        country: new FormControl('', [Validators.required]),
+        street: new FormControl('', [Validators.required, 
+                                     Validators.minLength(2), 
+                                     Luv2ShopValidators.notOnlyWhiteSpaces]),
+        city: new FormControl('', [Validators.required, 
+                                   Validators.minLength(2), 
+                                   Luv2ShopValidators.notOnlyWhiteSpaces]),
+        state: new FormControl('', [Validators.required]),
+        zipCode: new FormControl('', [Validators.required,
+                                      Validators.minLength(2),
+                                      Luv2ShopValidators.notOnlyWhiteSpaces])
       }),
       billingAddress: this.formBuilder.group({
         country: [''],
@@ -107,6 +113,26 @@ export class CheckoutComponent implements OnInit {
 
   get email(){
     return this.checkoutFormGroup.get('customer.email');
+  }
+
+  get shippingAddressStreet(){
+    return this.checkoutFormGroup.get('shippingAddress.street');
+  }
+
+  get shippingAddressCity(){
+    return this.checkoutFormGroup.get('shippingAddress.city');
+  }
+
+  get shippingAddressCountry(){
+    return this.checkoutFormGroup.get('shippingAddress.country');
+  }
+
+  get shippingAddressState(){
+    return this.checkoutFormGroup.get('shippingAddress.state');
+  }
+
+  get shippingAddressZipCode(){
+    return this.checkoutFormGroup.get('shippingAddress.zipCode');
   }
 
   copyShippingAddressToBillingAddress(event: Event){
