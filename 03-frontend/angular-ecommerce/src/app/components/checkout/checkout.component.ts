@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupName, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Country } from 'src/app/common/country';
+import { Order } from 'src/app/common/order';
+import { OrderItem } from 'src/app/common/order-item';
+import { Purchase } from 'src/app/common/purchase';
 import { State } from 'src/app/common/state';
 import { CartService } from 'src/app/services/cart.service';
+import { CheckoutService } from 'src/app/services/checkout.service';
 import { Luv2ShopFormService } from 'src/app/services/luv2-shop-form.service';
 import { Luv2ShopValidators } from 'src/app/validators/luv2-shop-validators';
 
@@ -30,7 +35,9 @@ export class CheckoutComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private luv2CodeFormService: Luv2ShopFormService,
-              private cartService: CartService){}
+              private cartService: CartService,
+              private checkoutService: CheckoutService,
+              private router: Router){}
 
   ngOnInit(): void {
 
@@ -207,10 +214,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log("Handling the subit button");
+
+    console.log("Handling the submit button");
 
     if(this.checkoutFormGroup.invalid){
       this.checkoutFormGroup.markAllAsTouched();
+      return;
     }
 
     console.log(this.checkoutFormGroup.get('customer')?.value);
@@ -222,6 +231,72 @@ export class CheckoutComponent implements OnInit {
     console.log("The Billing Address Country is " + this.checkoutFormGroup.get('billingAddress')?.value.country.name);
     console.log("The Billing Address State is " + this.checkoutFormGroup.get('billingAddress')?.value.state.name);
     console.log(this.checkoutFormGroup.get('creditCard')?.value);
+
+    // set up order
+    let order = new Order();
+    order.totalPrice = this.totalPrice;
+    order.totalQuantity = this.totalQuantity;
+
+    // get cart item
+    const cartItems = this.cartService.cartItems;
+
+    // create orderItems from cartItems
+    let orderItems: OrderItem[] = cartItems.map(tempCartItem => new OrderItem(tempCartItem));
+
+    // set up purchase
+    let purchase = new Purchase();
+
+    // populate purchase - customer
+    purchase.customer = this.checkoutFormGroup.controls['customer'].value;
+
+    // populate purchase - shipping Address
+    purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+    const shippingState: State = JSON.parse(JSON.stringify(purchase.shippingAddress.state));
+    const shippingCountry: Country = JSON.parse(JSON.stringify(purchase.shippingAddress.country));
+
+    purchase.shippingAddress.state = shippingState.name;
+    purchase.shippingAddress.country = shippingCountry.name;
+
+    // populate purchase - billing Address
+    purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
+    const billingState: State = JSON.parse(JSON.stringify(purchase.billingAddress.state));
+    const billinhCountry: Country = JSON.parse(JSON.stringify(purchase.billingAddress.country));
+
+    purchase.billingAddress.state = billingState.name;
+    purchase.billingAddress.country = billinhCountry.name;
+
+    // populate purchase - order and order Items
+    purchase.order = order;
+    purchase.orderItems = orderItems;
+
+    // call REST API via checkout Service
+    this.checkoutService.placeOrder(purchase).subscribe({
+        next: response => {
+          alert(`Your Order has been recived .\n Order Tracking number: ${response.orderTrackingNumber}`)
+
+          // reset cart
+          this.resetCart();
+        },
+        error: err => {
+          alert(`There was an erro: ${err.message}`);
+        }
+      }
+    );
+
+  }
+
+  resetCart() {
+    
+    // reset the cart data
+    this.cartService.cartItems = [];
+    this.cartService.totalPrice.next(0);
+    this.cartService.totalQuantity.next(0);
+
+    // reset the form data
+    this.checkoutFormGroup.reset();
+
+    // navigate back to the forms page
+    this.router.navigateByUrl("/products");
   }
 
   handleMonthsAndYears(){
