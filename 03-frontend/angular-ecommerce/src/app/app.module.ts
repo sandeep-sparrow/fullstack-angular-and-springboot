@@ -33,7 +33,7 @@ const oktaConfig = myAppConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
 
 const routes: Routes = [
-  {path: '/login/callback', component: OktaCallbackComponent},
+  {path: 'login/callback', component: OktaCallbackComponent},
   {path: 'login', component: LoginComponent},
   {path: 'cart-details', component: CartDetailsComponent },
   {path: 'checkout', component: CheckoutComponent},
@@ -68,7 +68,7 @@ const routes: Routes = [
         ReactiveFormsModule,
         OktaAuthModule
     ],
-  providers: [ProductService, {provide: OKTA_CONFIG, useValue: {oktaConfig}}],
+  providers: [ProductService, {provide: OKTA_CONFIG, useValue: { oktaAuth }}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
